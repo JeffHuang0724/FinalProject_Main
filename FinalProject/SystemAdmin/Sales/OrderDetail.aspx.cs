@@ -81,7 +81,19 @@ namespace FinalProject.SystemAdmin.Sales
                     this.ltlOrderDate.Text = orderDate.ToString("yyyy-MM-dd HH:mm:ss");
                     DateTime preShipmentDate = Convert.ToDateTime(drSalesOrder["PreShipmentDate"].ToString());
                     this.ltlPreShipmentDate.Text = preShipmentDate.ToString("yyyy-MM-dd");
-                    this.ltlSalesNo.Text = drSalesOrder["SalesNo"].ToString();
+                    string salesNo = drSalesOrder["SalesNo"].ToString();
+                    string salesCheck = drSalesOrder["SalesCheck"].ToString();
+                    if(salesCheck == "Y")
+                    {
+                        salesCheck = "確認接單";
+                    } else if(salesCheck == "N")
+                    {
+                        salesCheck = "拒絕接單";
+                    } else
+                    {
+                        salesCheck = "";
+                    }
+                    this.ltlSalesNo.Text = $"{salesNo} {salesCheck}";
 
                     DataRow drCustomerOrder = CustomerOrderManager.GetOrderInfo(orderNo);
                     string customerRemark = drCustomerOrder["Remark"].ToString();
