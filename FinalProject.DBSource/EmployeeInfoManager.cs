@@ -185,8 +185,8 @@ namespace FinalProject.DBSource
             List<SqlParameter> list = new List<SqlParameter>();
             list.Add(new SqlParameter("@EmployeeName", EmployeeName));
             list.Add(new SqlParameter("@EmployeeAccount", EmployeeAccount));
-            //密碼預設為12345
-            list.Add(new SqlParameter("@EmployeePassword", "12345"));
+            //密碼預設為12345678
+            list.Add(new SqlParameter("@EmployeePassword", "12345678"));
             list.Add(new SqlParameter("@Department", Department));
             list.Add(new SqlParameter("@Section", Section));
             list.Add(new SqlParameter("@EmployeeLevel", EmployeeLevel));
