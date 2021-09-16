@@ -15,7 +15,7 @@ namespace FinalProject.DBSource
         public static void CreateSalesOrder(string orderNo, string salesNo, string salesManagerNo)
         {
             string connectionString = DBHelper.GetConnectionString();
-            string queryString = $@"INSERT INTO [FinalProject].[dbo].[SalesOrders]
+            string queryString = $@"INSERT INTO [SalesOrders]
                                          (OrderNo
                                          ,SalesNo
                                          ,SalesProcessDate
@@ -46,9 +46,9 @@ namespace FinalProject.DBSource
         {
             string connectionString = DBHelper.GetConnectionString();
             string dbCommandString = $@"SELECT DISTINCT 
-                                         (SELECT Count(SNo) FROM [FinalProject].[dbo].[SalesOrders] WHERE SalesNo = @employeeID AND (SalesCheck = 'Y' OR SalesCheck = 'N')) AS FinishedOrderCount, 
-                                         (SELECT Count(SNo) FROM [FinalProject].[dbo].[SalesOrders] WHERE SalesNo = @employeeID AND ((SalesCheck != 'Y' AND SalesCheck != 'N') OR SalesCheck IS NULL)) AS UnFinishedOrderCount
-                                         FROM [FinalProject].[dbo].[SalesOrders]";
+                                         (SELECT Count(SNo) FROM [SalesOrders] WHERE SalesNo = @employeeID AND (SalesCheck = 'Y' OR SalesCheck = 'N')) AS FinishedOrderCount, 
+                                         (SELECT Count(SNo) FROM [SalesOrders] WHERE SalesNo = @employeeID AND ((SalesCheck != 'Y' AND SalesCheck != 'N') OR SalesCheck IS NULL)) AS UnFinishedOrderCount
+                                         FROM [SalesOrders]";
 
             List<SqlParameter> list = new List<SqlParameter>();
             list.Add(new SqlParameter("@employeeID", employeeID));
@@ -69,11 +69,11 @@ namespace FinalProject.DBSource
         {
             string connectionString = DBHelper.GetConnectionString();
             string dbCommandString = $@" SELECT DISTINCT 
-                                            (SELECT Count(SNo) FROM [FinalProject].[dbo].[SalesOrders] WHERE SalesManagerNo = @employeeID AND (SalesCheck = 'Y' OR SalesCheck = 'N') AND SalesManagerCheck = 'Y') AS FinishedOrderCount, 
-                                            (SELECT Count(SNo) FROM [FinalProject].[dbo].[SalesOrders] WHERE SalesManagerNo = @employeeID AND (SalesCheck = 'Y' OR SalesCheck = 'N') AND ((SalesManagerCheck != 'Y' AND SalesManagerCheck != 'N') OR SalesManagerCheck IS NULL)) AS UnFinishedOrderCount,
-                                            (SELECT Count(SNo) FROM [FinalProject].[dbo].[SalesOrders] WHERE SalesManagerNo = @employeeID AND SalesManagerCheck = 'Y') AS SectionFinishedOrderCount, 
-                                            (SELECT Count(SNo) FROM [FinalProject].[dbo].[SalesOrders] WHERE SalesManagerNo = @employeeID AND ((SalesManagerCheck != 'Y' AND SalesManagerCheck != 'N') OR SalesManagerCheck IS NULL)) AS SectionUnFinishedOrderCount
-                                        FROM [FinalProject].[dbo].[SalesOrders]";
+                                            (SELECT Count(SNo) FROM [SalesOrders] WHERE SalesManagerNo = @employeeID AND (SalesCheck = 'Y' OR SalesCheck = 'N') AND SalesManagerCheck = 'Y') AS FinishedOrderCount, 
+                                            (SELECT Count(SNo) FROM [SalesOrders] WHERE SalesManagerNo = @employeeID AND (SalesCheck = 'Y' OR SalesCheck = 'N') AND ((SalesManagerCheck != 'Y' AND SalesManagerCheck != 'N') OR SalesManagerCheck IS NULL)) AS UnFinishedOrderCount,
+                                            (SELECT Count(SNo) FROM [SalesOrders] WHERE SalesManagerNo = @employeeID AND SalesManagerCheck = 'Y') AS SectionFinishedOrderCount, 
+                                            (SELECT Count(SNo) FROM [SalesOrders] WHERE SalesManagerNo = @employeeID AND ((SalesManagerCheck != 'Y' AND SalesManagerCheck != 'N') OR SalesManagerCheck IS NULL)) AS SectionUnFinishedOrderCount
+                                        FROM [SalesOrders]";
 
             List<SqlParameter> list = new List<SqlParameter>();
             list.Add(new SqlParameter("@employeeID", employeeID));
@@ -98,8 +98,8 @@ namespace FinalProject.DBSource
                                             ,S.OrderNo
                                             ,C.OrderBranch
                                             ,C.OrderDate
-                                        FROM [FinalProject].[dbo].[SalesOrders] AS S
-                                        INNER JOIN [FinalProject].[dbo].[CustomerOrders] AS C
+                                        FROM [SalesOrders] AS S
+                                        INNER JOIN [CustomerOrders] AS C
                                         ON S.OrderNo = C.OrderNo
                                         WHERE S.SalesNo = @employeeID AND ((S.SalesCheck != 'Y' AND S.SalesCheck != 'N') OR S.SalesCheck IS NULL)
                                         ORDER BY C.OrderDate";
@@ -127,8 +127,8 @@ namespace FinalProject.DBSource
                                             ,S.OrderNo
                                             ,C.OrderBranch
                                             ,C.OrderDate
-                                        FROM [FinalProject].[dbo].[SalesOrders] AS S
-                                        INNER JOIN [FinalProject].[dbo].[CustomerOrders] AS C
+                                        FROM [SalesOrders] AS S
+                                        INNER JOIN [CustomerOrders] AS C
                                         ON S.OrderNo = C.OrderNo
                                         WHERE S.SalesManagerNo = @employeeID AND (S.SalesCheck = 'Y' OR S.SalesCheck = 'N') AND ((S.SalesManagerCheck != 'Y' AND S.SalesManagerCheck != 'N') OR S.SalesManagerCheck IS NULL)
                                         ORDER BY C.OrderDate";
@@ -156,8 +156,8 @@ namespace FinalProject.DBSource
                                             ,S.OrderNo
                                             ,C.OrderBranch
                                             ,C.OrderDate
-                                        FROM [FinalProject].[dbo].[SalesOrders] AS S
-                                        INNER JOIN[FinalProject].[dbo].[CustomerOrders] AS C
+                                        FROM [SalesOrders] AS S
+                                        INNER JOIN[CustomerOrders] AS C
                                         ON S.OrderNo = C.OrderNo
                                         WHERE S.SalesNo = @employeeID AND (S.SalesCheck = 'Y' OR S.SalesCheck = 'N')
                                         ORDER BY S.SalesProcessDate DESC";
@@ -185,8 +185,8 @@ namespace FinalProject.DBSource
                                             ,S.OrderNo
                                             ,C.OrderBranch
                                             ,C.OrderDate
-                                        FROM [FinalProject].[dbo].[SalesOrders] AS S
-                                        INNER JOIN [FinalProject].[dbo].[CustomerOrders] AS C
+                                        FROM [SalesOrders] AS S
+                                        INNER JOIN [CustomerOrders] AS C
                                         ON S.OrderNo = C.OrderNo
                                         WHERE S.SalesManagerNo = @employeeID AND S.SalesManagerCheck = 'Y'
                                         ORDER BY S.SalesManagerProcessDate";
@@ -223,8 +223,8 @@ namespace FinalProject.DBSource
                                         	,S.SalesManagerProcessDate
                                         	,S.SalesManagerCheck
                                         	,S.Remark
-                                        FROM [FinalProject].[dbo].[SalesOrders] AS S
-                                        INNER JOIN [FinalProject].[dbo].[CustomerOrders] AS C
+                                        FROM [SalesOrders] AS S
+                                        INNER JOIN [CustomerOrders] AS C
                                         ON S.OrderNo = C.OrderNo
                                         WHERE SNo= @SNo";
 
@@ -246,7 +246,7 @@ namespace FinalProject.DBSource
         public static bool UpdateSalesCheck(string sNo, string salesCheck, DateTime salesProcessDate, string remark)
         {
             string connectionString = DBHelper.GetConnectionString();
-            string queryString = $@"UPDATE [FinalProject].[dbo].[SalesOrders]
+            string queryString = $@"UPDATE [SalesOrders]
                                     SET
                                          SalesCheck = @salesCheck,
                                          SalesProcessDate = @salesProcessDate,
@@ -276,7 +276,7 @@ namespace FinalProject.DBSource
         public static bool UpdateSalesManagerCheck(string sNo, string salesCheck, string salesManagerCheck, DateTime salesManagerProcessDate,string remark)
         {
             string connectionString = DBHelper.GetConnectionString();
-            string queryString = $@"UPDATE [FinalProject].[dbo].[SalesOrders]
+            string queryString = $@"UPDATE [SalesOrders]
                                     SET
                                          SalesCheck = @salesCheck,
                                          SalesManagerCheck = @salesManagerCheck,

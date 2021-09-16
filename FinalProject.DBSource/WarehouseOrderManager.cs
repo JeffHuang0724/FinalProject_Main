@@ -14,7 +14,7 @@ namespace FinalProject.DBSource
         public static void CreateWarehouseOrder(string sNo, string orderNo, string  warehouseNo, DateTime warehouseProcessDate, string warehouseManagerNo, string remark)
         {
             string connectionString = DBHelper.GetConnectionString();
-            string queryString = $@"INSERT INTO [FinalProject].[dbo].[WarehouseOrders]
+            string queryString = $@"INSERT INTO [WarehouseOrders]
                                         ([SNo]
                                         ,[OrderNo]
                                         ,[WarehouseNo]
@@ -51,9 +51,9 @@ namespace FinalProject.DBSource
         {
             string connectionString = DBHelper.GetConnectionString();
             string dbCommandString = $@"SELECT DISTINCT 
-                                         (SELECT Count(WNo) FROM [FinalProject].[dbo].[WarehouseOrders] WHERE WarehouseNo = @employeeID AND (WarehouseCheck = 'Y' OR WarehouseCheck = 'N')) AS FinishedOrderCount, 
-                                         (SELECT Count(WNo) FROM [FinalProject].[dbo].[WarehouseOrders] WHERE WarehouseNo = @employeeID AND ((WarehouseCheck != 'Y' AND WarehouseCheck != 'N') OR WarehouseCheck IS NULL)) AS UnFinishedOrderCount
-                                         FROM [FinalProject].[dbo].[WarehouseOrders]";
+                                         (SELECT Count(WNo) FROM [WarehouseOrders] WHERE WarehouseNo = @employeeID AND (WarehouseCheck = 'Y' OR WarehouseCheck = 'N')) AS FinishedOrderCount, 
+                                         (SELECT Count(WNo) FROM [WarehouseOrders] WHERE WarehouseNo = @employeeID AND ((WarehouseCheck != 'Y' AND WarehouseCheck != 'N') OR WarehouseCheck IS NULL)) AS UnFinishedOrderCount
+                                         FROM [WarehouseOrders]";
 
             List<SqlParameter> list = new List<SqlParameter>();
             list.Add(new SqlParameter("@employeeID", employeeID));
@@ -74,11 +74,11 @@ namespace FinalProject.DBSource
         {
             string connectionString = DBHelper.GetConnectionString();
             string dbCommandString = $@" SELECT DISTINCT 
-                                            (SELECT Count(WNo) FROM [FinalProject].[dbo].[WarehouseOrders] INNER JOIN [FinalProject].[dbo].[CustomerOrders] ON WarehouseOrders.OrderNo = CustomerOrders.OrderNo WHERE WarehouseManagerNo = @employeeID AND WarehouseCheck = 'Y' AND WarehouseManagerCheck = 'Y' AND (CustomerOrders.OrderStatus = 1 OR CustomerOrders.OrderStatus = 4 OR CustomerOrders.OrderStatus = 5)) AS FinishedOrderCount, 
-                                            (SELECT Count(WNo) FROM [FinalProject].[dbo].[WarehouseOrders] INNER JOIN [FinalProject].[dbo].[CustomerOrders] ON WarehouseOrders.OrderNo = CustomerOrders.OrderNo WHERE WarehouseManagerNo = @employeeID AND WarehouseCheck = 'Y' AND ((WarehouseManagerCheck != 'Y' AND WarehouseManagerCheck != 'N') OR WarehouseManagerCheck IS NULL) OR (WarehouseManagerCheck = 'Y' AND (CustomerOrders.OrderStatus != 1 AND CustomerOrders.OrderStatus != 4 AND CustomerOrders.OrderStatus != 5))) AS UnFinishedOrderCount,
-                                            (SELECT Count(WNo) FROM [FinalProject].[dbo].[WarehouseOrders] INNER JOIN [FinalProject].[dbo].[CustomerOrders] ON WarehouseOrders.OrderNo = CustomerOrders.OrderNo WHERE WarehouseManagerNo = @employeeID AND WarehouseManagerCheck = 'Y' AND (CustomerOrders.OrderStatus = 1 OR CustomerOrders.OrderStatus = 4 OR CustomerOrders.OrderStatus = 5)) AS SectionFinishedOrderCount, 
-                                            (SELECT Count(WNo) FROM [FinalProject].[dbo].[WarehouseOrders] INNER JOIN [FinalProject].[dbo].[CustomerOrders] ON WarehouseOrders.OrderNo = CustomerOrders.OrderNo WHERE WarehouseManagerNo = @employeeID AND ((WarehouseManagerCheck != 'Y' AND WarehouseManagerCheck != 'N') OR WarehouseManagerCheck IS NULL)OR (WarehouseManagerCheck = 'Y' AND (CustomerOrders.OrderStatus != 1 AND CustomerOrders.OrderStatus != 4 AND CustomerOrders.OrderStatus != 5))) AS SectionUnFinishedOrderCount
-                                        FROM [FinalProject].[dbo].[WarehouseOrders]";
+                                            (SELECT Count(WNo) FROM [WarehouseOrders] INNER JOIN [CustomerOrders] ON WarehouseOrders.OrderNo = CustomerOrders.OrderNo WHERE WarehouseManagerNo = @employeeID AND WarehouseCheck = 'Y' AND WarehouseManagerCheck = 'Y' AND (CustomerOrders.OrderStatus = 1 OR CustomerOrders.OrderStatus = 4 OR CustomerOrders.OrderStatus = 5)) AS FinishedOrderCount, 
+                                            (SELECT Count(WNo) FROM [WarehouseOrders] INNER JOIN [CustomerOrders] ON WarehouseOrders.OrderNo = CustomerOrders.OrderNo WHERE WarehouseManagerNo = @employeeID AND WarehouseCheck = 'Y' AND ((WarehouseManagerCheck != 'Y' AND WarehouseManagerCheck != 'N') OR WarehouseManagerCheck IS NULL) OR (WarehouseManagerCheck = 'Y' AND (CustomerOrders.OrderStatus != 1 AND CustomerOrders.OrderStatus != 4 AND CustomerOrders.OrderStatus != 5))) AS UnFinishedOrderCount,
+                                            (SELECT Count(WNo) FROM [WarehouseOrders] INNER JOIN [CustomerOrders] ON WarehouseOrders.OrderNo = CustomerOrders.OrderNo WHERE WarehouseManagerNo = @employeeID AND WarehouseManagerCheck = 'Y' AND (CustomerOrders.OrderStatus = 1 OR CustomerOrders.OrderStatus = 4 OR CustomerOrders.OrderStatus = 5)) AS SectionFinishedOrderCount, 
+                                            (SELECT Count(WNo) FROM [WarehouseOrders] INNER JOIN [CustomerOrders] ON WarehouseOrders.OrderNo = CustomerOrders.OrderNo WHERE WarehouseManagerNo = @employeeID AND ((WarehouseManagerCheck != 'Y' AND WarehouseManagerCheck != 'N') OR WarehouseManagerCheck IS NULL)OR (WarehouseManagerCheck = 'Y' AND (CustomerOrders.OrderStatus != 1 AND CustomerOrders.OrderStatus != 4 AND CustomerOrders.OrderStatus != 5))) AS SectionUnFinishedOrderCount
+                                        FROM [WarehouseOrders]";
 
             List<SqlParameter> list = new List<SqlParameter>();
             list.Add(new SqlParameter("@employeeID", employeeID));
@@ -104,8 +104,8 @@ namespace FinalProject.DBSource
                                             ,W.OrderNo
                                             ,C.OrderBranch
                                             ,C.OrderDate
-                                        FROM [FinalProject].[dbo].[WarehouseOrders] AS W
-                                        INNER JOIN [FinalProject].[dbo].[CustomerOrders] AS C
+                                        FROM [WarehouseOrders] AS W
+                                        INNER JOIN [CustomerOrders] AS C
                                         ON W.OrderNo = C.OrderNo
                                         WHERE W.WarehouseNo = @employeeID AND ((W.WarehouseCheck != 'Y' AND W.WarehouseCheck != 'N') OR W.WarehouseCheck IS NULL)
                                         ORDER BY C.OrderDate";
@@ -134,7 +134,7 @@ namespace FinalProject.DBSource
                                             ,W.OrderNo
                                             ,C.OrderBranch
                                             ,C.OrderDate
-                                        FROM [FinalProject].[dbo].[WarehouseOrders] AS W
+                                        FROM [WarehouseOrders] AS W
                                         INNER JOIN CustomerOrders AS C
                                         ON W.OrderNo = C.OrderNo
                                         WHERE W.WarehouseManagerNo = @employeeID AND W.WarehouseCheck = 'Y' AND ((W.WarehouseManagerCheck != 'Y' AND W.WarehouseManagerCheck != 'N') OR W.WarehouseManagerCheck IS NULL) OR (W.WarehouseManagerCheck = 'Y' AND C.OrderStatus = 3 )
@@ -164,8 +164,8 @@ namespace FinalProject.DBSource
                                             ,W.OrderNo
                                             ,C.OrderBranch
                                             ,C.OrderDate
-                                        FROM [FinalProject].[dbo].[WarehouseOrders] AS W
-                                        INNER JOIN [FinalProject].[dbo].[CustomerOrders] AS C
+                                        FROM [WarehouseOrders] AS W
+                                        INNER JOIN [CustomerOrders] AS C
                                         ON W.OrderNo = C.OrderNo
                                         WHERE W.WarehouseNo = @employeeID AND (W.WarehouseCheck = 'Y' OR W.WarehouseCheck = 'N')
                                         ORDER BY C.OrderDate";
@@ -194,8 +194,8 @@ namespace FinalProject.DBSource
                                             ,W.OrderNo
                                             ,C.OrderBranch
                                             ,C.OrderDate
-                                        FROM [FinalProject].[dbo].[WarehouseOrders] AS W
-                                        INNER JOIN [FinalProject].[dbo].[CustomerOrders] AS C
+                                        FROM [WarehouseOrders] AS W
+                                        INNER JOIN [CustomerOrders] AS C
                                         ON W.OrderNo = C.OrderNo
                                         WHERE W.WarehouseManagerNo = @employeeID AND W.WarehouseManagerCheck = 'Y'
                                         ORDER BY C.OrderDate";
@@ -236,10 +236,10 @@ namespace FinalProject.DBSource
                                               ,W.WarehouseManagerProcessDate
                                               ,W.WarehouseManagerCheck
                                               ,W.Remark
-                                        FROM [FinalProject].[dbo].[WarehouseOrders] AS W
-                                        INNER JOIN [FinalProject].[dbo].[CustomerOrders] AS C
+                                        FROM [WarehouseOrders] AS W
+                                        INNER JOIN [CustomerOrders] AS C
                                         ON W.OrderNo = C.OrderNo
-                                        INNER JOIN [FinalProject].[dbo].[SalesOrders] AS S
+                                        INNER JOIN [SalesOrders] AS S
                                         ON W.OrderNo = S.OrderNo
                                         WHERE W.WNo=@WNo";
 
@@ -261,7 +261,7 @@ namespace FinalProject.DBSource
         public static bool UpdateWarehouseOrder(string wNo, string employeeID, string remark)
         {
             string connectionString = DBHelper.GetConnectionString();
-            string queryString = $@"UPDATE [FinalProject].[dbo].[WarehouseOrders]
+            string queryString = $@"UPDATE [WarehouseOrders]
                                     SET
                                          WarehouseProcessDate = @warehouseProcessDate
                                          ,WarehouseCheck = @warehouseCheck
@@ -290,7 +290,7 @@ namespace FinalProject.DBSource
         public static bool UpdateWarehouseManagerOrder(string wNo, string warehouseCheck, string warehouseManagerNo, string warehouseManagerCheck, string remark)
         {
             string connectionString = DBHelper.GetConnectionString();
-            string queryString = $@"UPDATE [FinalProject].[dbo].[WarehouseOrders]
+            string queryString = $@"UPDATE [WarehouseOrders]
                                     SET
                                          WarehouseCheck = @warehouseCheck
                                          ,WarehouseManagerProcessDate = @warehouseManagerProcessDate

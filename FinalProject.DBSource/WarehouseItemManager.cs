@@ -20,7 +20,7 @@ namespace FinalProject.DBSource
                                             ,ItemName
                                             ,StockCount
                                             ,ItemPrice
-                                        FROM [FinalProject].[dbo].[Items]
+                                        FROM [Items]
                                         ORDER BY Category";
 
             List<SqlParameter> list = new List<SqlParameter>();
@@ -46,7 +46,7 @@ namespace FinalProject.DBSource
                                             ,ItemName
                                             ,StockCount
                                             ,ItemPrice
-                                         FROM [FinalProject].[dbo].[Items]
+                                         FROM [Items]
                                          WHERE ItemNo = @itemNo";
 
             List<SqlParameter> list = new List<SqlParameter>();
@@ -67,7 +67,7 @@ namespace FinalProject.DBSource
         public static bool UpdateWarehouseItem(string itemNo, int stockCount, decimal itemPrice)
         {
             string connectionString = DBHelper.GetConnectionString();
-            string queryString = $@"UPDATE [FinalProject].[dbo].[Items]
+            string queryString = $@"UPDATE [Items]
                                     SET
                                          StockCount = @stockCount
                                          ,ItemPrice = @itemPrice
@@ -95,22 +95,22 @@ namespace FinalProject.DBSource
             string dbCommandString = $@"SELECT
                                             (SELECT TOP(1)
                                             	[ItemNo]
-                                              FROM [FinalProject].[dbo].[Items]
+                                              FROM [Items]
                                               WHERE ItemNo LIKE 'M%'
                                               ORDER BY ItemNo DESC) AS MLastNo,
                                             (SELECT TOP(1)
                                             	[ItemNo]
-                                              FROM [FinalProject].[dbo].[Items]
+                                              FROM [Items]
                                               WHERE ItemNo LIKE 'F%'
                                               ORDER BY ItemNo DESC) AS FLastNo,
                                             (SELECT TOP(1)
                                             	[ItemNo]
-                                              FROM [FinalProject].[dbo].[Items]
+                                              FROM [Items]
                                               WHERE ItemNo LIKE 'O%'
                                               ORDER BY ItemNo DESC) AS OLastNo,
                                             (SELECT TOP(1)
                                             	[ItemNo]
-                                              FROM [FinalProject].[dbo].[Items]
+                                              FROM [Items]
                                               WHERE ItemNo LIKE 'S%'
                                               ORDER BY ItemNo DESC) AS SLastNo";
 
@@ -132,7 +132,7 @@ namespace FinalProject.DBSource
         {
 
             string connectionString = DBHelper.GetConnectionString();
-            string queryString = $@"INSERT INTO [FinalProject].[dbo].[Items]
+            string queryString = $@"INSERT INTO [Items]
                                          (ItemNo
                                          ,Category
                                          ,ItemName

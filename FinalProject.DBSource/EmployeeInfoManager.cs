@@ -17,7 +17,7 @@ namespace FinalProject.DBSource
             string dbCommandString = $@"SELECT 
                                             EmployeeID
                                             ,EmployeeName
-                                        FROM [FinalProject].[dbo].[HeadquartersEmployees]
+                                        FROM [HeadquartersEmployees]
                                         WHERE Section = @section AND EmployeeLevel = @employeeLevel
                                         ORDER BY EmployeeID";
 
@@ -144,7 +144,7 @@ namespace FinalProject.DBSource
                                             ,EmployeeName
                                             ,Department
                                             ,EmployeePhone
-                                        FROM [FinalProject].[dbo].[HeadquartersEmployees]
+                                        FROM [HeadquartersEmployees]
                                         ORDER BY Department";
 
             List<SqlParameter> list = new List<SqlParameter>();
@@ -165,7 +165,7 @@ namespace FinalProject.DBSource
         {
 
             string connectionString = DBHelper.GetConnectionString();
-            string queryString = $@"INSERT INTO [FinalProject].[dbo].[HeadquartersEmployees]
+            string queryString = $@"INSERT INTO [HeadquartersEmployees]
                                          (EmployeeName
                                          ,EmployeeAccount
                                          ,EmployeePassword
@@ -205,7 +205,7 @@ namespace FinalProject.DBSource
         public static bool UpdateEmployeeInfo(string EmployeeID, string EmployeeName, string EmployeeAccount, string EmployeePhone)
         {
             string connectionString = DBHelper.GetConnectionString();
-            string queryString = $@"UPDATE [FinalProject].[dbo].[HeadquartersEmployees]
+            string queryString = $@"UPDATE [HeadquartersEmployees]
                                     SET
                                          EmployeeName = @EmployeeName
                                          ,EmployeeAccount = @EmployeeAccount
@@ -232,7 +232,7 @@ namespace FinalProject.DBSource
         public static bool ChangePassword(string EmployeeID, string EmployeePassword)
         {
             string connectionString = DBHelper.GetConnectionString();
-            string queryString = $@"UPDATE [FinalProject].[dbo].[HeadquartersEmployees]
+            string queryString = $@"UPDATE [HeadquartersEmployees]
                                     SET
                                          EmployeePassword = @EmployeePassword
                                      WHERE

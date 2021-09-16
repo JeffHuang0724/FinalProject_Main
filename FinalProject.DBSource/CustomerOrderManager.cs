@@ -15,7 +15,7 @@ namespace FinalProject.DBSource
         {
 
             string connectionString = DBHelper.GetConnectionString();
-            string queryString = $@"INSERT INTO [FinalProject].[dbo].[CustomerOrders]
+            string queryString = $@"INSERT INTO [CustomerOrders]
                                          (OrderEmployeeID
                                          ,OrderBranch
                                          ,OrderDate
@@ -53,7 +53,7 @@ namespace FinalProject.DBSource
             string connectionString = DBHelper.GetConnectionString();
             string dbCommandString = $@"SELECT
                                             OrderNo
-                                        FROM [FinalProject].[dbo].[CustomerOrders]
+                                        FROM [CustomerOrders]
                                         WHERE
                                             OrderEmployeeID = @orderEmployeeID 
                                             AND
@@ -85,7 +85,7 @@ namespace FinalProject.DBSource
         {
 
             string connectionString = DBHelper.GetConnectionString();
-            string queryString = $@"INSERT INTO [FinalProject].[dbo].[CustomerOrderDetails]
+            string queryString = $@"INSERT INTO [CustomerOrderDetails]
                                          (OrderNo
                                          ,ItemNo
                                          ,ItemCount
@@ -128,7 +128,7 @@ namespace FinalProject.DBSource
                                             ArriveDate,
                                             Remark,
                                             OrderStatus
-                                        FROM [FinalProject].[dbo].[CustomerOrders]
+                                        FROM [CustomerOrders]
                                         WHERE
                                             OrderNo = @orderNo";
 
@@ -159,7 +159,7 @@ namespace FinalProject.DBSource
                                             ,[ArriveDate]
                                             ,[Remark]
                                             ,[OrderStatus]
-                                        FROM [FinalProject].[dbo].[CustomerOrders]
+                                        FROM [CustomerOrders]
                                         WHERE OrderEmployeeID = @orderEmployeeID";
 
             List<SqlParameter> list = new List<SqlParameter>();
@@ -189,8 +189,8 @@ namespace FinalProject.DBSource
                                                ,(C.[ItemCount] * C.[ItemPrice]) AS TotalAmount
                                                ,C.[WetherStock]
                                                ,C.[Remark]
-                                        FROM [FinalProject].[dbo].[CustomerOrderDetails] AS C
-                                        INNER JOIN [FinalProject].[dbo].[Items] AS I
+                                        FROM [CustomerOrderDetails] AS C
+                                        INNER JOIN [Items] AS I
                                         ON C.ItemNo = I.ItemNo
                                         WHERE C.OrderNo=@orderNo;";
 
@@ -212,7 +212,7 @@ namespace FinalProject.DBSource
         public static bool UpdateOrderDetailStatus(string orderNo, string itemNo, string wetherStock)
         {
             string connectionString = DBHelper.GetConnectionString();
-            string queryString = $@"UPDATE [FinalProject].[dbo].[CustomerOrderDetails]
+            string queryString = $@"UPDATE [CustomerOrderDetails]
                                     SET
                                          WetherStock = @wetherStock
                                      WHERE
@@ -237,7 +237,7 @@ namespace FinalProject.DBSource
         public static bool UpdateOrderStatus (string orderNo, DateTime arriveDate, int orderStatus , string remark)
         {
             string connectionString = DBHelper.GetConnectionString();
-            string queryString = $@"UPDATE [FinalProject].[dbo].[CustomerOrders]
+            string queryString = $@"UPDATE [CustomerOrders]
                                     SET
                                          ArriveDate = @arriveDate,
                                          OrderStatus = @orderStatus,
@@ -265,7 +265,7 @@ namespace FinalProject.DBSource
         public static bool UpdateOrderStatusForManager(string orderNo, DateTime shipmeneDate, int orderStatus, string remark)
         {
             string connectionString = DBHelper.GetConnectionString();
-            string queryString = $@"UPDATE [FinalProject].[dbo].[CustomerOrders]
+            string queryString = $@"UPDATE [CustomerOrders]
                                     SET
                                          ShipmentDate = @shipmeneDate,
                                          OrderStatus = @orderStatus,
@@ -293,7 +293,7 @@ namespace FinalProject.DBSource
         public static bool UpdateOrderStatusForNoStock(string orderNo, DateTime arriveDate, int orderStatus, string remark)
         {
             string connectionString = DBHelper.GetConnectionString();
-            string queryString = $@"UPDATE [FinalProject].[dbo].[CustomerOrders]
+            string queryString = $@"UPDATE [CustomerOrders]
                                     SET
                                          ArriveDate = @arriveDate,
                                          OrderStatus = @orderStatus,
@@ -321,7 +321,7 @@ namespace FinalProject.DBSource
         public static bool CompleteOrderStatus(string orderNo, DateTime arriveDate, int orderStatus)
         {
             string connectionString = DBHelper.GetConnectionString();
-            string queryString = $@"UPDATE [FinalProject].[dbo].[CustomerOrders]
+            string queryString = $@"UPDATE [CustomerOrders]
                                     SET
                                          ArriveDate = @arriveDate,
                                          OrderStatus = @orderStatus

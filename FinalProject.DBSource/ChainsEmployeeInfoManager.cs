@@ -59,7 +59,7 @@ namespace FinalProject.DBSource
         public static bool CreateChainsEmployeeGUID(string account, Guid actGUID, DateTime actTime)
         {
             string connectionString = DBHelper.GetConnectionString();
-            string queryString = $@"UPDATE [FinalProject].[dbo].[ChainsEmployees]
+            string queryString = $@"UPDATE [ChainsEmployees]
                                     SET
                                          ActGUID = @actGUID
                                          ,ActTime = @actTime
@@ -84,7 +84,7 @@ namespace FinalProject.DBSource
         public static bool UpdateChainsEmployeeGUID(string actGUID, DateTime actTime)
         {
             string connectionString = DBHelper.GetConnectionString();
-            string queryString = $@"UPDATE [FinalProject].[dbo].[ChainsEmployees]
+            string queryString = $@"UPDATE [ChainsEmployees]
                                     SET
                                          ActGUID = @actGUID
                                          ,ActTime = @actTime
@@ -114,7 +114,7 @@ namespace FinalProject.DBSource
                                             ,EmployeeName
                                             ,EmployeePhone
                                             ,BranchNo
-                                        FROM [FinalProject].[dbo].[ChainsEmployees]";
+                                        FROM [ChainsEmployees]";
 
             List<SqlParameter> list = new List<SqlParameter>();
 
